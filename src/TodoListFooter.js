@@ -8,9 +8,18 @@ class TodoListFooter extends React.Component {
 
         return (
             <div className="todoList-footer">
-                <button className={classForAll}>Все</button>
-                <button className={classForCompleted}>Выполненные</button>
-                <button className={classForActive}>Активные</button>
+                <button
+                    className={classForAll}
+                    onClick={() => {this.props.changeFilter("All") }}
+                >All</button>
+                <button
+                    className={classForCompleted}
+                    onClick={() => {this.props.changeFilter("Completed") }}
+                >Completed</button>
+                <button
+                    className={classForActive}
+                    onClick={() => {this.props.changeFilter("Active") }}
+                >Active</button>
             </div>
         );
     }
