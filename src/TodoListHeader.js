@@ -1,32 +1,60 @@
 import React from 'react';
+import './App.css';
 
-class TodolistHeader extends React.Component {
+class TodoListHeader extends React.Component {
 
-    newTaskTitleRef = React.createRef();
+    state = {
+        error: false,
+        title: ""
+    };
+
+    constructor(props) {
+        super(props);
+    }
 
     onAddTaskClick = () => {
-        let newText = this.newTaskTitleRef.current.value;
-        this.newTaskTitleRef.current.value = ""; //очистили инпут (присвоили пустую строку)
-        this.props.addTask(newText);
+        let newText = this.state.title;
+        this.setState({title: ""});
+        if (newText === "") {
+            this.setState({error: true})
+        } else {
+            this.setState({error: false})
+            this.props.onTaskAdded(newText);
+        }
+    };
+    onTitleChanged = (e) => {
+        this.setState({
+            error: false,
+            title: e.currentTarget.value
+        })
+    };
+
+    onKeyPress = (e) => {
+        if (e.key === "Enter") {
+            this.onAddTaskClick()
+        }
     };
 
     render = () => {
+
         return (
             <div className="todoList-header">
-                <h3 className="todoList-header__title">To do list</h3>
+                <h3 className="todoList-header__title">What to Learn</h3>
                 <div className="todoList-newTaskForm">
                     <input
                         type="text"
                         placeholder="New task name"
-                        ref={this.newTaskTitleRef}
+                        className={this.state.error ? "error" : ""}
+                        onChange={this.onTitleChanged}
+                        onKeyPress={this.onKeyPress}
+                        value={this.state.title}
                     />
-                    <button onClick={this.onAddTaskClick}>Add</button>
+                    <button onClick={ this.onAddTaskClick }>Add</button>
                 </div>
             </div>
-
         );
     }
 }
 
-export default TodolistHeader;
+export default TodoListHeader;
 
